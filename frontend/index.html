@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="id">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Home</title>
+
+    <!-- Link Tailwind -->
+    <script src="https://unpkg.com/@tailwindcss/browser@4"></script>
+
+    <!-- Link Remix Icon -->
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/remixicon/fonts/remixicon.css"
+    />
+
+    <!-- Favicon -->
+    <link
+      rel="icon"
+      type="image/png"
+      href="./assets/favicon/favicon-16x16.png"
+      sizes="16x16"
+    />
+  </head>
+  <body class="bg-gray-900 flex flex-col min-h-screen">
+    <!-- Navbar (Desktop & Mobile) -->
+    <nav
+      class="bg-gray-800 text-white w-full py-3 px-6 flex justify-between items-center fixed top-0"
+    >
+      <!-- Logo / Brand -->
+      <div class="text-lg font-semibold flex items-center space-x-2">
+        <img
+          src="./assets/favicon/apple-touch-icon-152x152.png"
+          alt="Logo"
+          class="w-10 h-10"
+        />
+        <span>Title</span>
+      </div>
+
+      <!-- Menu Navigasi (Desktop) -->
+      <ul class="hidden md:flex space-x-6">
+        <li><a href="#" class="hover:text-gray-300">Home</a></li>
+        <li><a href="#" class="hover:text-gray-300">About</a></li>
+        <li><a href="#" class="hover:text-gray-300">Services</a></li>
+        <li><a href="#" class="hover:text-gray-300">Contact</a></li>
+      </ul>
+
+      <!-- Profile -->
+      <div class="flex items-center space-x-4">
+        <span class="hidden md:block text-sm">Hello, User</span>
+        <div class="relative">
+          <button id="profileBtn" class="focus:outline-none">
+            <i class="ri-user-line rounded-full border-2 p-1 border-white"></i>
+          </button>
+          <!-- Dropdown Profile -->
+          <div
+            id="profileMenu"
+            class="hidden absolute right-0 mt-2 w-48 bg-gray-700 text-white rounded shadow-lg"
+          >
+            <a href="#" class="block px-4 py-2 hover:bg-gray-600">Profile</a>
+            <a href="#" class="block px-4 py-2 hover:bg-gray-600">Settings</a>
+            <a href="#" class="block px-4 py-2 hover:bg-gray-600">Logout</a>
+          </div>
+        </div>
+      </div>
+    </nav>
+
+    <!-- Footer Bar (Mobile) -->
+    <div
+      class="md:hidden fixed bottom-0 w-full bg-gray-800 text-white flex justify-around py-2"
+    >
+      <a href="#" class="flex flex-col items-center">
+        <i class="ri-home-line"></i>
+        <span class="text-xs">Home</span>
+      </a>
+      <a href="#" class="flex flex-col items-center">
+        <i class="ri-information-line"></i>
+        <span class="text-xs">About</span>
+      </a>
+      <a href="#" class="flex flex-col items-center">
+        <i class="ri-service-line"></i>
+        <span class="text-xs">Services</span>
+      </a>
+      <a href="#" class="flex flex-col items-center">
+        <i class="ri-contacts-line"></i>
+        <span class="text-xs">Contact</span>
+      </a>
+    </div>
+
+    <!-- Konten Utama -->
+    <main
+      class="flex-grow flex items-center justify-center text-white text-xl mt-16"
+    >
+      Selamat datang di website!
+    </main>
+
+    <!-- JavaScript untuk Dropdown Profile -->
+    <script>
+      document
+        .getElementById("profileBtn")
+        .addEventListener("click", function () {
+          document.getElementById("profileMenu").classList.toggle("hidden");
+        });
+
+      // Menutup dropdown saat klik di luar
+      document.addEventListener("click", function (event) {
+        let profileMenu = document.getElementById("profileMenu");
+        let profileBtn = document.getElementById("profileBtn");
+
+        if (
+          !profileBtn.contains(event.target) &&
+          !profileMenu.contains(event.target)
+        ) {
+          profileMenu.classList.add("hidden");
+        }
+      });
+    </script>
+  </body>
+</html>
