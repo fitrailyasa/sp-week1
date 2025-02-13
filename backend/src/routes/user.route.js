@@ -17,8 +17,4 @@ router
   .put(authenticate(), authorize(['admin']), userController.updateUser)
   .delete(authenticate(), authorize(['admin']), userController.deleteUser);
 
-router.route('/:id/products').get(authenticate(), authorize(['admin']), productController.getProductsByUserId);
-
-router.route('/:id/orders').get(authenticate(), authorize(['admin']), orderController.getOrdersByUserId);
-
 module.exports = router;
