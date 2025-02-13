@@ -1,0 +1,112 @@
+@BASE_URL = http://localhost:3000/api
+@API_KEY = your-api-key-here
+@JWT_TOKEN = your-jwt-token-here
+
+@userId = user-id
+@tokenId = token-id
+@categoryId = category-id
+
+# ------------ START AUTH API ------------ #
+
+### Register
+POST {{BASE_URL}}/auth/register
+Content-Type: application/json
+
+{
+  "name": "Fitra",
+  "email": "fitra@gmail.com",
+  "password": "password",
+  "role": "user"
+}
+
+### Login
+POST {{BASE_URL}}/auth/login
+Content-Type: application/json
+
+{
+  "email": "fitra@gmail.com",
+  "password": "password"
+}
+
+### Logout
+POST {{BASE_URL}}/auth/logout
+Content-Type: application/json
+Authorization: Bearer {{JWT_TOKEN}}
+
+# ------------ END AUTH API ------------ #
+
+
+# ------------ START USER CRUD API ------------ #
+
+### Create User
+POST {{BASE_URL}}/users
+Content-Type: application/json
+Authorization: Bearer {{JWT_TOKEN}}
+
+{
+  "name": "Fitra",
+  "email": "fitra2@gmail.com",
+  "password": "password",
+  "role": "user"
+}
+
+### Get All Users
+GET {{BASE_URL}}/users
+Authorization: Bearer {{JWT_TOKEN}}
+
+### Get User by ID
+GET {{BASE_URL}}/users/{{userId}}
+Authorization: Bearer {{JWT_TOKEN}}
+
+### Update User
+PUT {{BASE_URL}}/users/{{userId}}
+Content-Type: application/json
+Authorization: Bearer {{JWT_TOKEN}}
+
+{
+  "name": "Fitra",
+  "email": "fitra2@gmail.com",
+  "password": "password",
+  "role": "admin"
+}
+
+### Delete User
+DELETE {{BASE_URL}}/users/{{userId}}
+Authorization: Bearer {{JWT_TOKEN}}
+
+# ------------ END USER CRUD API ------------ #
+
+
+# ------------ START CATEGORY CRUD API ------------ #
+
+### Create Category
+POST {{BASE_URL}}/categories
+Content-Type: application/json
+Authorization: Bearer {{JWT_TOKEN}}
+
+{
+  "name": "Electronics"
+}
+
+### Get All Categories
+GET {{BASE_URL}}/categories
+Authorization: Bearer {{JWT_TOKEN}}
+
+### Get Category by ID
+GET {{BASE_URL}}/categories/{{categoryId}}
+Authorization: Bearer {{JWT_TOKEN}}
+
+### Update Category
+PUT {{BASE_URL}}/categories/{{categoryId}}
+Content-Type: application/json
+Authorization: Bearer {{JWT_TOKEN}}
+
+{
+  "name": "Updated Electronics"
+}
+
+### Delete Category
+DELETE {{BASE_URL}}/categories/{{categoryId}}
+Authorization: Bearer {{JWT_TOKEN}}
+
+# ------------ END CATEGORY CRUD API ------------ #
