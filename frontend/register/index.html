@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="id">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Register</title>
+
+    <!-- Link Tailwind -->
+    <script src="https://unpkg.com/@tailwindcss/browser@4"></script>
+
+    <!-- Link Remix Icon -->
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/remixicon/fonts/remixicon.css"
+    />
+
+    <!-- Favicon -->
+    <link
+      rel="icon"
+      type="image/png"
+      href="../assets/favicon/favicon-16x16.png"
+      sizes="16x16"
+    />
+  </head>
+  <body class="bg-gray-900 flex items-center justify-center h-screen">
+    <div
+      class="bg-gray-900 p-8 rounded-lg shadow-[0_0_15px_rgba(200,200,200,0.5)] ring-1 ring-white/20 w-96 m-8"
+    >
+      <h2 class="text-2xl font-bold text-center text-gray-200">Registrasi</h2>
+
+      <form action="#" method="POST" class="mt-6">
+        <div>
+          <label class="block text-gray-200"
+            ><i class="ri-user-line"></i> Nama Lengkap</label
+          >
+          <input
+            type="text"
+            name="name"
+            id="name"
+            placeholder="Nama Lengkap"
+            class="w-full bg-gray-800 text-white px-4 py-2 mt-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-green-400"
+          />
+        </div>
+        <div class="mt-4">
+          <label class="block text-gray-200"
+            ><i class="ri-mail-line"></i> Email</label
+          >
+          <input
+            type="email"
+            name="email"
+            id="email"
+            placeholder="Email"
+            class="w-full bg-gray-800 text-white px-4 py-2 mt-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-green-400"
+          />
+        </div>
+        <div class="mt-4 relative">
+          <label class="block text-gray-200"
+            ><i class="ri-lock-line"></i> Password</label
+          >
+          <input
+            type="password"
+            name="password"
+            id="password"
+            placeholder="Password"
+            class="w-full bg-gray-800 text-white px-4 py-2 mt-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-green-400 pr-10"
+          />
+          <button
+            type="button"
+            onclick="togglePassword('password', 'eye1')"
+            class="absolute right-3 top-10 text-gray-400"
+          >
+            <i id="eye1" class="ri-eye-off-line"></i>
+          </button>
+        </div>
+        <div class="mt-4 relative">
+          <label class="block text-gray-200"
+            ><i class="ri-lock-line"></i> Konfirmasi Password</label
+          >
+          <input
+            type="password"
+            name="password_confirmation"
+            id="password_confirmation"
+            placeholder="Ulangi Password"
+            class="w-full bg-gray-800 text-white px-4 py-2 mt-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-green-400 pr-10"
+          />
+          <button
+            type="button"
+            onclick="togglePassword('password_confirmation', 'eye2')"
+            class="absolute right-3 top-10 text-gray-400"
+          >
+            <i id="eye2" class="ri-eye-off-line"></i>
+          </button>
+        </div>
+        <button
+          class="w-full bg-green-600 text-white py-2 px-4 rounded-lg mt-6 hover:bg-green-700 transition"
+        >
+          Daftar
+        </button>
+      </form>
+
+      <p class="mt-4 text-center text-gray-400">
+        Sudah punya akun?
+        <a href="/login" class="text-green-500">Masuk</a>
+      </p>
+    </div>
+
+    <script>
+      function togglePassword(inputId, eyeId) {
+        let input = document.getElementById(inputId);
+        let eyeIcon = document.getElementById(eyeId);
+
+        if (input.type === "password") {
+          input.type = "text";
+          eyeIcon.classList.remove("ri-eye-off-line");
+          eyeIcon.classList.add("ri-eye-line");
+        } else {
+          input.type = "password";
+          eyeIcon.classList.remove("ri-eye-line");
+          eyeIcon.classList.add("ri-eye-off-line");
+        }
+      }
+    </script>
+  </body>
+</html>
