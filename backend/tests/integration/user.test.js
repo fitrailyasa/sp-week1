@@ -96,7 +96,7 @@ describe('User routes', () => {
   });
 
   describe('ERROR HANDLING', () => {
-    test('should return 400 if creating product without required fields', async () => {
+    test('should return 400 if creating user without required fields', async () => {
       const res = await request(app).post('/api/users').set('Authorization', `Bearer ${adminAccessToken}`);
 
       expect(res.body).toEqual(
