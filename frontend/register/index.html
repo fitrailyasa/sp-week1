@@ -28,7 +28,7 @@
     >
       <h2 class="text-2xl font-bold text-center text-gray-200">Registrasi</h2>
 
-      <form action="#" method="POST" class="mt-6">
+      <form id="registerForm" class="mt-6">
         <div>
           <label class="block text-gray-200"
             ><i class="ri-user-line"></i> Nama Lengkap</label
@@ -39,6 +39,7 @@
             id="name"
             placeholder="Nama Lengkap"
             class="w-full bg-gray-800 text-white px-4 py-2 mt-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-green-400"
+            required
           />
         </div>
         <div class="mt-4">
@@ -51,6 +52,7 @@
             id="email"
             placeholder="Email"
             class="w-full bg-gray-800 text-white px-4 py-2 mt-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-green-400"
+            required
           />
         </div>
         <div class="mt-4 relative">
@@ -63,6 +65,7 @@
             id="password"
             placeholder="Password"
             class="w-full bg-gray-800 text-white px-4 py-2 mt-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-green-400 pr-10"
+            required
           />
           <button
             type="button"
@@ -82,6 +85,7 @@
             id="password_confirmation"
             placeholder="Ulangi Password"
             class="w-full bg-gray-800 text-white px-4 py-2 mt-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-green-400 pr-10"
+            required
           />
           <button
             type="button"
@@ -91,7 +95,11 @@
             <i id="eye2" class="ri-eye-off-line"></i>
           </button>
         </div>
+
+        <p id="message" class="text-sm mt-2 text-center hidden"></p>
+
         <button
+          type="submit"
           class="w-full bg-green-600 text-white py-2 px-4 rounded-lg mt-6 hover:bg-green-700 transition"
         >
           Daftar
@@ -100,11 +108,62 @@
 
       <p class="mt-4 text-center text-gray-400">
         Sudah punya akun?
-        <a href="/login" class="text-green-500">Masuk</a>
+        <a href="/login/index.html" class="text-green-500">Masuk</a>
       </p>
     </div>
 
     <script>
+      document.getElementById("registerForm").addEventListener("submit", async function (event) {
+        event.preventDefault();
+
+        // BASE URL
+        const BASE_URL = "https://test3.my.id/v1";
+
+        const name = document.getElementById("name").value;
+        const email = document.getElementById("email").value;
+        const password = document.getElementById("password").value;
+        const passwordConfirmation = document.getElementById("password_confirmation").value;
+        const messageBox = document.getElementById("message");
+
+        messageBox.textContent = "";
+        messageBox.classList.add("hidden");
+
+        if (password !== passwordConfirmation) {
+          messageBox.textContent = "Password dan konfirmasi password tidak cocok!";
+          messageBox.classList.remove("hidden", "text-green-500");
+          messageBox.classList.add("text-red-500");
+          return;
+        }
+
+        try {
+          const response = await fetch(`${BASE_URL}/auth/register`, {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({ name, email, password }),
+          });
+
+          const result = await response.json();
+
+          if (response.ok) {
+            messageBox.textContent = "Registrasi berhasil! Mengalihkan ke halaman login...";
+            messageBox.classList.remove("hidden", "text-red-500");
+            messageBox.classList.add("text-green-500");
+
+            setTimeout(() => {
+              window.location.href = "/login/index.html";
+            }, 2000);
+          } else {
+            throw new Error(result.message || "Registrasi gagal");
+          }
+        } catch (error) {
+          messageBox.textContent = error.message;
+          messageBox.classList.remove("hidden", "text-green-500");
+          messageBox.classList.add("text-red-500");
+        }
+      });
+
       function togglePassword(inputId, eyeId) {
         let input = document.getElementById(inputId);
         let eyeIcon = document.getElementById(eyeId);

@@ -28,7 +28,7 @@
     >
       <h2 class="text-2xl font-bold text-center text-gray-200">Login</h2>
 
-      <form action="#" method="POST" class="mt-6">
+      <form id="loginForm" class="mt-6">
         <div>
           <label class="block text-gray-200"
             ><i class="ri-mail-line"></i> Email</label
@@ -39,6 +39,7 @@
             id="email"
             placeholder="Email"
             class="w-full bg-gray-800 text-white px-4 py-2 mt-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-green-400"
+            required
           />
         </div>
         <div class="mt-4 relative">
@@ -51,6 +52,7 @@
             id="password"
             placeholder="Password"
             class="w-full bg-gray-800 text-white px-4 py-2 mt-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-green-400 pr-10"
+            required
           />
           <button
             type="button"
@@ -60,7 +62,11 @@
             <i id="eye1" class="ri-eye-off-line"></i>
           </button>
         </div>
+
+        <p id="error-message" class="text-red-500 text-sm mt-2 hidden"></p>
+
         <button
+          type="submit"
           class="w-full bg-green-600 text-white py-2 px-4 rounded-lg mt-6 hover:bg-green-700 transition"
         >
           Masuk
@@ -69,11 +75,48 @@
 
       <p class="mt-4 text-center text-gray-400">
         Belum punya akun?
-        <a href="/register" class="text-green-500">Daftar</a>
+        <a href="/register/index.html" class="text-green-500">Daftar</a>
       </p>
     </div>
 
     <script>
+      document.getElementById("loginForm").addEventListener("submit", async function (event) {
+        event.preventDefault();
+
+        // BASE URL
+        const BASE_URL = "https://test3.my.id/v1";
+
+        const email = document.getElementById("email").value;
+        const password = document.getElementById("password").value;
+        const errorMessage = document.getElementById("error-message");
+
+        errorMessage.textContent = "";
+        errorMessage.classList.add("hidden");
+
+        try {
+          const response = await fetch(`${BASE_URL}/auth/login`, {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({ email, password }),
+          });
+
+          const result = await response.json();
+
+          if (response.ok) {
+            localStorage.setItem("token", result.token);
+
+            window.location.href = "/";
+          } else {
+            throw new Error(result.message || "Login gagal");
+          }
+        } catch (error) {
+          errorMessage.textContent = error.message;
+          errorMessage.classList.remove("hidden");
+        }
+      });
+
       function togglePassword(inputId, eyeId) {
         let input = document.getElementById(inputId);
         let eyeIcon = document.getElementById(eyeId);
