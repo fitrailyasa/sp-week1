@@ -110,3 +110,20 @@ DELETE {{BASE_URL}}/categories/{{categoryId}}
 Authorization: Bearer {{JWT_TOKEN}}
 
 # ------------ END CATEGORY CRUD API ------------ #
+
+
+# ------------ START UPDATE PROFILE API ------------ #
+
+### Update Profile
+PUT {{BASE_URL}}/profile/82374720-ecd8-4beb-8874-ffa2e310e6d4
+Content-Type: application/json
+Authorization: Bearer {{JWT_TOKEN}}
+
+{
+  "name": "Fitra",
+  "email": "fitra2@gmail.com",
+  "password": "password",
+  "role": "user"
+}
+
+# ------------ END UPDATE PROFILE API ------------ #
