@@ -28,3 +28,5 @@ coverage/
 *.swp
 *.bak
 *.tmp
+
+src/uploads

@@ -3,10 +3,10 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Home</title>
+    <title>Summarizer App</title>
 
     <!-- Link Tailwind -->
-    <script src="https://unpkg.com/@tailwindcss/browser@4"></script>
+    <script src="https://cdn.tailwindcss.com"></script>
 
     <!-- Link Remix Icon -->
     <link
@@ -14,106 +14,282 @@
       href="https://cdn.jsdelivr.net/npm/remixicon/fonts/remixicon.css"
     />
 
-    <!-- Favicon -->
-    <link
-      rel="icon"
-      type="image/png"
-      href="./assets/favicon/favicon-16x16.png"
-      sizes="16x16"
-    />
+    <link rel="stylesheet" href="./assets/css/style.css" />
   </head>
-  <body class="bg-gray-900 flex flex-col min-h-screen">
-    <!-- Navbar (Desktop & Mobile) -->
+  <body class="bg-gray-900 flex flex-col items-center justify-center h-screen">
+    <!-- Background Animation -->
+    <div class="gradient-bg">
+      <div class="gradients-container">
+        <div class="g1"></div>
+        <div class="g2"></div>
+        <div class="g3"></div>
+        <div class="g4"></div>
+      </div>
+    </div>
+
+    <!-- Navbar -->
     <nav
-      class="bg-gray-800 text-white w-full py-3 px-6 flex justify-between items-center fixed top-0"
+      id="navbar"
+      class="z-50 backdrop-blur-2xl bg-white/10 text-white shadow-[0_0_15px_rgba(200,200,200,0.5)] ring-1 ring-white/20 w-full py-3 px-6 flex justify-between items-center fixed top-0 md:px-20"
     >
-      <!-- Logo / Brand -->
+      <!-- Logo -->
       <div class="text-lg font-semibold flex items-center space-x-2">
-        <img
-          src="./assets/favicon/apple-touch-icon-152x152.png"
-          alt="Logo"
-          class="w-10 h-10"
-        />
-        <span>Title</span>
+        <i class="ri-pencil-line text-2xl"></i>
+        <span>SUMMARIZER</span>
       </div>
 
-      <!-- Menu Navigasi (Desktop) -->
-      <ul class="hidden md:flex space-x-6">
-        <li><a href="#" class="hover:text-gray-300">Home</a></li>
-        <li><a href="#" class="hover:text-gray-300">About</a></li>
-        <li><a href="#" class="hover:text-gray-300">Services</a></li>
-        <li><a href="#" class="hover:text-gray-300">Contact</a></li>
-      </ul>
-
-      <!-- Profile -->
       <div class="flex items-center space-x-4">
-        <span class="hidden md:block text-sm">Hello, User</span>
+        <!-- Menu Navigasi (Dibuat Dinamis) -->
+        <ul id="nav-links" class="hidden md:flex space-x-6"></ul>
+
+        <span class="hidden md:block"> | </span>
+
+        <!-- Profile Dropdown -->
         <div class="relative">
           <button id="profileBtn" class="focus:outline-none">
             <i class="ri-user-line rounded-full border-2 p-1 border-white"></i>
           </button>
-          <!-- Dropdown Profile -->
           <div
             id="profileMenu"
             class="hidden absolute right-0 mt-2 w-48 bg-gray-700 text-white rounded shadow-lg"
           >
-            <a href="#" class="block px-4 py-2 hover:bg-gray-600">Profile</a>
-            <a href="#" class="block px-4 py-2 hover:bg-gray-600">Settings</a>
-            <a href="#" class="block px-4 py-2 hover:bg-gray-600">Logout</a>
+            <a
+              href="#"
+              id="nav-profile"
+              class="block px-4 py-2 hover:bg-gray-600"
+              >Profile</a
+            >
+            <a href="#" id="logout" class="block px-4 py-2 hover:bg-gray-600"
+              >Logout</a
+            >
           </div>
         </div>
       </div>
     </nav>
 
-    <!-- Footer Bar (Mobile) -->
-    <div
-      class="md:hidden fixed bottom-0 w-full bg-gray-800 text-white flex justify-around py-2"
-    >
-      <a href="#" class="flex flex-col items-center">
-        <i class="ri-home-line"></i>
-        <span class="text-xs">Home</span>
-      </a>
-      <a href="#" class="flex flex-col items-center">
-        <i class="ri-information-line"></i>
-        <span class="text-xs">About</span>
-      </a>
-      <a href="#" class="flex flex-col items-center">
-        <i class="ri-service-line"></i>
-        <span class="text-xs">Services</span>
-      </a>
-      <a href="#" class="flex flex-col items-center">
-        <i class="ri-contacts-line"></i>
-        <span class="text-xs">Contact</span>
-      </a>
-    </div>
-
     <!-- Konten Utama -->
-    <main
-      class="flex-grow flex items-center justify-center text-white text-xl mt-16"
-    >
-      Selamat datang di website!
+    <main class="flex-grow flex items-center justify-center text-white text-xl">
+      <div id="content" class="text-center"></div>
     </main>
 
-    <!-- JavaScript untuk Dropdown Profile -->
+    <!-- Footer (Mobile) -->
+    <footer
+      id="footer"
+      class="z-50 md:hidden fixed bottom-0 w-full bg-gray-800 text-white flex justify-around py-2"
+    ></footer>
+
     <script>
+      // Base URL API
+      const BASE_URL = "http://localhost:3000";
+
+      // Menu Navigasi
+      const menu = [
+        { name: "Home", id: "home", icon: "ri-home-4-line" },
+        { name: "Generate", id: "add", icon: "ri-add-circle-line" },
+        { name: "History", id: "history", icon: "ri-history-line" },
+      ];
+
+      // Halaman yang akan dimuat
+      const pages = {
+        home:`<div>
+                  <h1 class='text-2xl font-bold'>SUMMARIZER APP</h1>
+                  <p class='my-4 px-5 text-justify md:text-center md:px-20'>
+                    Aplikasi berbasis web yang menggunakan metode <span class='text-green-400'>Retrieval-Augmented Generation (RAG)</span> untuk menghasilkan ringkasan atau resume dari dokumen yang diberikan pengguna.
+                  </p>
+                  <a href="#" id="nav-add" class="bg-green-500 text-sm px-4 py-2 rounded">START</a>
+              </div>`,
+        add:`<div class="">
+              <h1 class="text-2xl font-bold text-center mb-4">Upload Document</h1>
+              <div class="mb-4">
+                  <input type="file" id="file-input" class="block w-full text-sm text-gray-100 border rounded-lg p-2" accept=".pdf">
+              </div>
+              <div class="flex justify-center">
+                  <button id="upload" class="bg-green-600 text-sm text-white px-4 py-2 rounded-lg hover:bg-green-700">Upload & Summarize</button>
+              </div>
+              <div id="loading" class="text-center mt-4 hidden">
+                <div class="animate-spin h-8 w-8 border-4 border-green-500 border-t-transparent rounded-full mx-auto"></div>
+                <p class="text-gray-200 mt-2">Processing...</p>
+              </div>
+              <div id="summary" class="my-4 p-4 text-sm bg-green-100 border-l-4 border-green-500 text-green-700 rounded-lg max-h-60 overflow-y-auto hidden"></div>
+            </div>`,
+        history:`<div class="">
+              <h1 class="text-2xl font-bold text-center mb-4">History</h1>
+                  <ul id="history-list" class="text-lg text-left px-4 max-h-80 overflow-y-auto border border-gray-300 rounded-lg p-2"></ul>
+                  <button id="clear-history" class="mt-4 bg-red-600 text-sm text-white px-4 py-2 rounded-lg hover:bg-red-700">Clear History</button>
+                </div>`,
+        profile:`<div class='text-center'>
+                  <h1 class='text-2xl mb-4'>Profile</h1>
+                  <p>Nama: <span class="text-green-400">User</span></p>
+                  <p>Email: <span class="text-green-400">user@example.com</span></p>
+                </div>`,
+      };
+
+      // Redirect otomatis jika halaman login dimuat
+      function redirectToLogin() {
+        window.location.href = "/login/index.html";
+      }
+
+      // Fungsi untuk generate navigasi dan footer
+      function generateNavAndFooter() {
+        document.getElementById("nav-links").innerHTML = menu
+          .map(
+            (item) =>
+              `<li><a href="#" id="nav-${item.id}" class="nav-link">${item.name} <i class="${item.icon}"></i></a></li>`
+          )
+          .join("");
+
+        document.getElementById("footer").innerHTML = menu
+          .map(
+            (item) =>
+              `<a href="#" id="foot-${item.id}" class="foot-link flex flex-col items-center"><i class="${item.icon}"></i><span class="text-xs">${item.name}</span></a>`
+          )
+          .join("");
+      }
+
+      // Fungsi untuk memuat halaman
+      function loadPage(page) {
+        if (!auth(page)) return;
+        document.getElementById("content").innerHTML = pages[page];
+        document
+          .querySelectorAll(".nav-link, .foot-link")
+          .forEach((link) => link.classList.remove("text-green-400"));
+        if (document.getElementById(`nav-${page}`))
+          document
+            .getElementById(`nav-${page}`)
+            .classList.add("text-green-400");
+        if (document.getElementById(`foot-${page}`))
+          document
+            .getElementById(`foot-${page}`)
+            .classList.add("text-green-400");
+
+        if (page === "add") setupUpload();
+        if (page === "history") loadHistory();
+      }
+
+      function auth(page) {
+        const protectedPages = ["add", "history", "profile"];
+        const isLoggedIn = localStorage.getItem("isLoggedIn") === "true";
+
+        if (protectedPages.includes(page) && !isLoggedIn) {
+          alert("Anda harus login terlebih dahulu!");
+          redirectToLogin();
+          return false;
+        }
+        return true;
+      }
+
+      // Fungsi untuk upload file dan menyimpan ringkasan
+      function setupUpload() {
+        document
+          .getElementById("upload")
+          .addEventListener("click", async () => {
+            const fileInput = document.getElementById("file-input");
+            const summaryDiv = document.getElementById("summary");
+            const loadingDiv = document.getElementById("loading");
+
+            if (fileInput.files.length === 0) {
+              alert("Please select a file!");
+              return;
+            }
+
+            const file = fileInput.files[0];
+            const formData = new FormData();
+            formData.append("document", file);
+
+            summaryDiv.classList.add("hidden");
+            loadingDiv.classList.remove("hidden");
+
+            try {
+              const response = await fetch(`${BASE_URL}/api/upload`, {
+                method: "POST",
+                body: formData,
+              });
+
+              if (!response.ok) {
+                throw new Error("Failed to process document");
+              }
+
+              const result = await response.json();
+              summaryDiv.innerText = result.summary;
+              summaryDiv.classList.remove("hidden");
+
+              // Simpan ringkasan ke localStorage
+              saveToHistory(result.summary);
+            } catch (error) {
+              summaryDiv.innerText = "Error: " + error.message;
+              summaryDiv.classList.remove("hidden");
+            } finally {
+              loadingDiv.classList.add("hidden");
+            }
+          });
+      }
+
+      // Fungsi untuk menyimpan ringkasan ke localStorage
+      function saveToHistory(summary) {
+        let history = JSON.parse(localStorage.getItem("summaries")) || [];
+        history.push({ date: new Date().toLocaleString(), text: summary });
+        localStorage.setItem("summaries", JSON.stringify(history));
+      }
+
+      // Fungsi untuk menampilkan history dari localStorage
+      function loadHistory() {
+        let historyList = document.getElementById("history-list");
+        let history = JSON.parse(localStorage.getItem("summaries")) || [];
+
+        if (history.length === 0) {
+          historyList.innerHTML =
+            "<p class='text-gray-400'>No history available.</p>";
+          return;
+        }
+
+        historyList.innerHTML = history
+          .map(
+            (item, index) => `<li class="mb-2 p-2 bg-gray-800 rounded">
+                                      <p class="text-sm text-gray-400">${item.date}</p>
+                                      <p>${item.text}</p>
+                                    </li>`
+          )
+          .join("");
+
+        document
+          .getElementById("clear-history")
+          .addEventListener("click", clearHistory);
+      }
+
+      // Fungsi untuk menghapus history
+      function clearHistory() {
+        localStorage.removeItem("summaries");
+        loadHistory();
+      }
+
+      // Event Listener untuk navigasi
+      document.addEventListener("click", function (event) {
+        menu.forEach((item) => {
+          if (event.target.closest(`#nav-${item.id}, #foot-${item.id}`)) {
+            loadPage(item.id);
+          }
+        });
+
+        if (event.target.closest("#nav-profile")) {
+          loadPage("profile");
+        }
+      });
+
+      // Profile dropdown
       document
         .getElementById("profileBtn")
         .addEventListener("click", function () {
           document.getElementById("profileMenu").classList.toggle("hidden");
         });
 
-      // Menutup dropdown saat klik di luar
       document.addEventListener("click", function (event) {
         let profileMenu = document.getElementById("profileMenu");
-        let profileBtn = document.getElementById("profileBtn");
-
-        if (
-          !profileBtn.contains(event.target) &&
-          !profileMenu.contains(event.target)
-        ) {
+        if (!event.target.closest("#profileBtn"))
           profileMenu.classList.add("hidden");
-        }
       });
+
+      generateNavAndFooter();
+      loadPage("home");
     </script>
   </body>
 </html>
