@@ -56,7 +56,7 @@
 
     <!-- Register Form -->
     <div
-      class="z-999 backdrop-blur-2xl bg-white/10 p-8 rounded-lg shadow-[0_0_15px_rgba(200,200,200,0.5)] ring-1 ring-white/20 w-96 m-8"
+      class="backdrop-blur-2xl bg-white/10 p-8 rounded-lg shadow-[0_0_15px_rgba(200,200,200,0.5)] ring-1 ring-white/20 w-96 m-8"
     >
       <h2 class="text-2xl font-bold text-center text-gray-200">Registrasi</h2>
 
@@ -144,78 +144,6 @@
       </p>
     </div>
 
-    <script>
-      document
-        .getElementById("registerForm")
-        .addEventListener("submit", async function (event) {
-          event.preventDefault();
-
-          // BASE URL
-          const BASE_URL = "https://test1.my.id/v1";
-
-          const name = document.getElementById("name").value;
-          const email = document.getElementById("email").value;
-          const password = document.getElementById("password").value;
-          const passwordConfirmation = document.getElementById(
-            "password_confirmation"
-          ).value;
-          const messageBox = document.getElementById("message");
-
-          messageBox.textContent = "";
-          messageBox.classList.add("hidden");
-
-          if (password !== passwordConfirmation) {
-            messageBox.textContent =
-              "Password dan konfirmasi password tidak cocok!";
-            messageBox.classList.remove("hidden", "text-green-500");
-            messageBox.classList.add("text-red-500");
-            return;
-          }
-
-          try {
-            const response = await fetch(`${BASE_URL}/auth/register`, {
-              method: "POST",
-              headers: {
-                "Content-Type": "application/json",
-              },
-              body: JSON.stringify({ name, email, password }),
-            });
-
-            const result = await response.json();
-
-            if (response.ok) {
-              messageBox.textContent =
-                "Registrasi berhasil! Mengalihkan ke halaman login...";
-              messageBox.classList.remove("hidden", "text-red-500");
-              messageBox.classList.add("text-green-500");
-
-              setTimeout(() => {
-                window.location.href = "/login/index.html";
-              }, 2000);
-            } else {
-              throw new Error(result.message || "Registrasi gagal");
-            }
-          } catch (error) {
-            messageBox.textContent = error.message;
-            messageBox.classList.remove("hidden", "text-green-500");
-            messageBox.classList.add("text-red-500");
-          }
-        });
-
-      function togglePassword(inputId, eyeId) {
-        let input = document.getElementById(inputId);
-        let eyeIcon = document.getElementById(eyeId);
-
-        if (input.type === "password") {
-          input.type = "text";
-          eyeIcon.classList.remove("ri-eye-off-line");
-          eyeIcon.classList.add("ri-eye-line");
-        } else {
-          input.type = "password";
-          eyeIcon.classList.remove("ri-eye-line");
-          eyeIcon.classList.add("ri-eye-off-line");
-        }
-      }
-    </script>
+    <script src="../assets/js/script.js"></script>
   </body>
 </html>

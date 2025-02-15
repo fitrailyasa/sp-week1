@@ -56,7 +56,7 @@
 
     <!-- Login Form -->
     <div
-      class="z-999 backdrop-blur-2xl bg-white/10 p-8 rounded-lg shadow-[0_0_15px_rgba(200,200,200,0.5)] ring-1 ring-white/20 w-96 m-8"
+      class="backdrop-blur-2xl bg-white/10 p-8 rounded-lg shadow-[0_0_15px_rgba(200,200,200,0.5)] ring-1 ring-white/20 w-96 m-8"
     >
       <h2 class="text-2xl font-bold text-center text-gray-200">Login</h2>
 
@@ -111,60 +111,6 @@
       </p>
     </div>
 
-    <script>
-      document
-        .getElementById("loginForm")
-        .addEventListener("submit", async function (event) {
-          event.preventDefault();
-
-          // BASE URL
-          const BASE_URL = "https://test1.my.id/v1";
-
-          const email = document.getElementById("email").value;
-          const password = document.getElementById("password").value;
-          const errorMessage = document.getElementById("error-message");
-
-          errorMessage.textContent = "";
-          errorMessage.classList.add("hidden");
-
-          try {
-            const response = await fetch(`${BASE_URL}/auth/login`, {
-              method: "POST",
-              headers: {
-                "Content-Type": "application/json",
-              },
-              body: JSON.stringify({ email, password }),
-            });
-
-            const result = await response.json();
-
-            if (response.ok) {
-              localStorage.setItem("token", result.token);
-
-              window.location.href = "/";
-            } else {
-              throw new Error(result.message || "Login gagal");
-            }
-          } catch (error) {
-            errorMessage.textContent = error.message;
-            errorMessage.classList.remove("hidden");
-          }
-        });
-
-      function togglePassword(inputId, eyeId) {
-        let input = document.getElementById(inputId);
-        let eyeIcon = document.getElementById(eyeId);
-
-        if (input.type === "password") {
-          input.type = "text";
-          eyeIcon.classList.remove("ri-eye-off-line");
-          eyeIcon.classList.add("ri-eye-line");
-        } else {
-          input.type = "password";
-          eyeIcon.classList.remove("ri-eye-line");
-          eyeIcon.classList.add("ri-eye-off-line");
-        }
-      }
-    </script>
+    <script src="../assets/js/script.js"></script>
   </body>
 </html>

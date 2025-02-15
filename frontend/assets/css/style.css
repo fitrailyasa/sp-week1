@@ -79,6 +79,7 @@ body {
   background: linear-gradient(40deg, var(--color-bg1), var(--color-bg2));
   top: 0;
   left: 0;
+  z-index: -1;
 }
 
 .gradient-bg .gradients-container {
