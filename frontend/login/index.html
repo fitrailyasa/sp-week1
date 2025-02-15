@@ -21,10 +21,42 @@
       href="../assets/favicon/favicon-16x16.png"
       sizes="16x16"
     />
+
+    <link rel="stylesheet" href="../assets/css/style.css" />
   </head>
   <body class="bg-gray-900 flex items-center justify-center h-screen">
+    <!-- Background Animation -->
+    <div class="gradient-bg">
+      <svg xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <filter id="goo">
+            <feGaussianBlur
+              in="SourceGraphic"
+              stdDeviation="10"
+              result="blur"
+            />
+            <feColorMatrix
+              in="blur"
+              mode="matrix"
+              values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 18 -8"
+              result="goo"
+            />
+            <feBlend in="SourceGraphic" in2="goo" />
+          </filter>
+        </defs>
+      </svg>
+      <div class="gradients-container">
+        <div class="g1"></div>
+        <div class="g2"></div>
+        <div class="g3"></div>
+        <div class="g4"></div>
+        <div class="g5"></div>
+      </div>
+    </div>
+
+    <!-- Login Form -->
     <div
-      class="bg-gray-900 p-8 rounded-lg shadow-[0_0_15px_rgba(200,200,200,0.5)] ring-1 ring-white/20 w-96 m-8"
+      class="z-999 backdrop-blur-2xl bg-white/10 p-8 rounded-lg shadow-[0_0_15px_rgba(200,200,200,0.5)] ring-1 ring-white/20 w-96 m-8"
     >
       <h2 class="text-2xl font-bold text-center text-gray-200">Login</h2>
 
@@ -38,7 +70,7 @@
             name="email"
             id="email"
             placeholder="Email"
-            class="w-full bg-gray-800 text-white px-4 py-2 mt-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-green-400"
+            class="w-full text-white px-4 py-2 mt-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-green-400"
             required
           />
         </div>
@@ -51,13 +83,13 @@
             name="password"
             id="password"
             placeholder="Password"
-            class="w-full bg-gray-800 text-white px-4 py-2 mt-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-green-400 pr-10"
+            class="w-full text-white px-4 py-2 mt-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-green-400 pr-10"
             required
           />
           <button
             type="button"
             onclick="togglePassword('password', 'eye1')"
-            class="absolute right-3 top-10 text-gray-400"
+            class="absolute right-3 top-10 text-white"
           >
             <i id="eye1" class="ri-eye-off-line"></i>
           </button>
@@ -73,49 +105,51 @@
         </button>
       </form>
 
-      <p class="mt-4 text-center text-gray-400">
+      <p class="mt-4 text-center text-white">
         Belum punya akun?
         <a href="/register/index.html" class="text-green-500">Daftar</a>
       </p>
     </div>
 
     <script>
-      document.getElementById("loginForm").addEventListener("submit", async function (event) {
-        event.preventDefault();
+      document
+        .getElementById("loginForm")
+        .addEventListener("submit", async function (event) {
+          event.preventDefault();
 
-        // BASE URL
-        const BASE_URL = "https://test1.my.id/v1";
+          // BASE URL
+          const BASE_URL = "https://test1.my.id/v1";
 
-        const email = document.getElementById("email").value;
-        const password = document.getElementById("password").value;
-        const errorMessage = document.getElementById("error-message");
+          const email = document.getElementById("email").value;
+          const password = document.getElementById("password").value;
+          const errorMessage = document.getElementById("error-message");
 
-        errorMessage.textContent = "";
-        errorMessage.classList.add("hidden");
+          errorMessage.textContent = "";
+          errorMessage.classList.add("hidden");
 
-        try {
-          const response = await fetch(`${BASE_URL}/auth/login`, {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json",
-            },
-            body: JSON.stringify({ email, password }),
-          });
+          try {
+            const response = await fetch(`${BASE_URL}/auth/login`, {
+              method: "POST",
+              headers: {
+                "Content-Type": "application/json",
+              },
+              body: JSON.stringify({ email, password }),
+            });
 
-          const result = await response.json();
+            const result = await response.json();
 
-          if (response.ok) {
-            localStorage.setItem("token", result.token);
+            if (response.ok) {
+              localStorage.setItem("token", result.token);
 
-            window.location.href = "/";
-          } else {
-            throw new Error(result.message || "Login gagal");
+              window.location.href = "/";
+            } else {
+              throw new Error(result.message || "Login gagal");
+            }
+          } catch (error) {
+            errorMessage.textContent = error.message;
+            errorMessage.classList.remove("hidden");
           }
-        } catch (error) {
-          errorMessage.textContent = error.message;
-          errorMessage.classList.remove("hidden");
-        }
-      });
+        });
 
       function togglePassword(inputId, eyeId) {
         let input = document.getElementById(inputId);
