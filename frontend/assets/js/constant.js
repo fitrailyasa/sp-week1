@@ -32,8 +32,8 @@ const pages = {
         <div id="summary" class="my-4 mx-7 p-4 text-sm bg-green-100 border-l-4 border-green-500 text-green-700 rounded-lg max-h-60 overflow-y-auto hidden"></div>
       </div>`,
   history: `<div class="">
-        <h1 class="text-2xl font-bold text-center mb-4">History</h1>
-            <ul id="history-list" class="text-lg text-left px-4 mx-7 max-h-80 overflow-y-auto border border-gray-300 rounded-lg p-2"></ul>
-            <button id="clear-history" class="mt-4 bg-red-600 text-sm text-white px-4 py-2 rounded-lg hover:bg-red-700">Clear History</button>
-          </div>`,
+              <h1 class="text-2xl font-bold text-center mb-4">History</h1>
+              <ul id="history-list" class="text-lg text-left px-4 mx-7 max-h-80 overflow-y-auto border border-gray-300 rounded-lg p-2 backdrop-blur-2xl bg-white/10 shadow-[0_0_15px_rgba(200,200,200,0.5)] ring-1 ring-white/20"></ul>
+              <button id="clear-history" class="mt-4 bg-red-600 text-sm text-white px-4 py-2 rounded-lg hover:bg-red-700">Clear History</button>
+            </div>`,
 };
