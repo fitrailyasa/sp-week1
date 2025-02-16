@@ -5,6 +5,7 @@
 @userId = user-id
 @tokenId = token-id
 @categoryId = category-id
+@profileId = profile-id
 
 # ------------ START AUTH API ------------ #
 
@@ -115,7 +116,7 @@ Authorization: Bearer {{JWT_TOKEN}}
 # ------------ START UPDATE PROFILE API ------------ #
 
 ### Update Profile
-PUT {{BASE_URL}}/profile/82374720-ecd8-4beb-8874-ffa2e310e6d4
+PUT {{BASE_URL}}/profile/{{profileId}}
 Content-Type: application/json
 Authorization: Bearer {{JWT_TOKEN}}
 
