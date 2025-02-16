@@ -1,3 +1,7 @@
+const fullName = localStorage.getItem("name") || "User";
+const firstName = fullName.split(" ")[0]; 
+document.getElementById("profileName").innerText = firstName;
+
 // Redirect otomatis jika halaman login dimuat
 function redirectToLogin() {
   window.location.href = "/login/index.html";
