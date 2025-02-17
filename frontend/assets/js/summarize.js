@@ -62,7 +62,7 @@ function loadHistory() {
 
   historyList.innerHTML = history
     .map(
-      (item, index) => `<li class="mb-2 p-2 bg-gray-800 rounded">
+      (item, index) => `<li class="mb-2 p-2 rounded">
                             <p class="text-sm text-gray-400">${item.date}</p>
                             <p>${item.text}</p>
                         </li>`
